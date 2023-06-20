@@ -17,12 +17,17 @@ func main() {
 	ctx, cancelContextFunc := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelContextFunc()
 
-	if err := request(ctx, http.MethodGet, "/projects"); err != nil {
+	token := os.Getenv("VERCEL_TOKEN")
+	if token == "" {
+		log.Panicln("the expected VERCEL_TOKEN environment is not set!")
+	}
+
+	if err := request(ctx, token, http.MethodGet, "/projects"); err != nil {
 		log.Panicln(err)
 	}
 }
 
-func request(ctx context.Context, method, path string) error {
+func request(ctx context.Context, token, method, path string) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
 		method,
@@ -33,7 +38,7 @@ func request(ctx context.Context, method, path string) error {
 		return fmt.Errorf("error forming request: %w", err)
 	}
 
-	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", os.Getenv("VERCEL_TOKEN")))
+	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", token))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
