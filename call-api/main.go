@@ -34,10 +34,9 @@ func main() {
 		http.MethodPatch,
 		"/v9/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env/08w3OJ5CpocL9okK",
 		map[string]interface{}{
-			"key": "TEST_ENV",
-			// "target": []string{"production"},
-			"type":  "plain",
-			"value": "this is a new value!!!!",
+			"key":   "TEST_ENV",
+			"type":  "encrypted",
+			"value": "encrypted new value!!!!",
 		},
 	); err != nil {
 		log.Panicln(err)
