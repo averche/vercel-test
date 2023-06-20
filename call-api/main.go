@@ -13,9 +13,6 @@ import (
 )
 
 func main() {
-	/* */ log.Println("call-api: begin")
-	defer log.Println("call-api: end")
-
 	ctx, cancelContextFunc := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelContextFunc()
 

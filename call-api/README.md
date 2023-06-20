@@ -39,7 +39,7 @@ $ go run main.go | jq
   "createdBy": "4271JZfdlbJECRd6aTVRfR52",
   "updatedBy": "4271JZfdlbJECRd6aTVRfR52",
   "id": "08w3OJ5CpocL9okK"
-
+}
 ```
 
 ### Environment Variable Operations
