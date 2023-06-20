@@ -5,7 +5,7 @@ app = Flask(__name__)
 
 @app.route('/')
 def home():
-    return f'Hello, TEST_ENV = {os.environ['TEST_ENV']}'
+    return 'Hello, TEST_ENV = ' + os.environ['TEST_ENV']
 
 @app.route('/about')
 def about():
