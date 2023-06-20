@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"context"
+	"encoding/json"
 	"fmt"
 	"io"
 	"log"
@@ -22,17 +24,25 @@ func main() {
 		log.Panicln("the expected VERCEL_TOKEN environment is not set!")
 	}
 
-	if err := request(ctx, token, http.MethodGet, "/projects"); err != nil {
+	if err := request(ctx, token, http.MethodGet, "/projects", nil); err != nil {
 		log.Panicln(err)
 	}
 }
 
-func request(ctx context.Context, token, method, path string) error {
+func request(ctx context.Context, token, method, path string, body map[string]interface{}) error {
+	var reqBody bytes.Buffer
+
+	if body != nil {
+		if err := json.NewEncoder(&reqBody).Encode(body); err != nil {
+			return fmt.Errorf("could not encode request body: %w", err)
+		}
+	}
+
 	req, err := http.NewRequestWithContext(
 		ctx,
 		method,
 		fmt.Sprintf("https://api.vercel.com/v9%s", path),
-		nil,
+		&reqBody,
 	)
 	if err != nil {
 		return fmt.Errorf("error forming request: %w", err)
@@ -46,12 +56,12 @@ func request(ctx context.Context, token, method, path string) error {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll(resp.Body)
+	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return fmt.Errorf("error reading body: %w", err)
 	}
 
-	fmt.Println(string(body))
+	fmt.Println(string(respBody))
 
 	return nil
 }
