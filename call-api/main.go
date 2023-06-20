@@ -17,28 +17,36 @@ func main() {
 	ctx, cancelContextFunc := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancelContextFunc()
 
+	if err := request(ctx, http.MethodGet, "/projects"); err != nil {
+		log.Panicln(err)
+	}
+}
+
+func request(ctx context.Context, method, path string) error {
 	req, err := http.NewRequestWithContext(
 		ctx,
-		http.MethodGet,
-		fmt.Sprintf("https://api.vercel.com/v9/projects"),
+		method,
+		fmt.Sprintf("https://api.vercel.com/v9%s", path),
 		nil,
 	)
 	if err != nil {
-		log.Panicf("error forming request: %v", err)
+		return fmt.Errorf("error forming request: %w", err)
 	}
 
 	req.Header.Add("Authorization", fmt.Sprintf("Bearer %s", os.Getenv("VERCEL_TOKEN")))
 
 	resp, err := http.DefaultClient.Do(req)
 	if err != nil {
-		log.Panicf("error sending request: %v", err)
+		return fmt.Errorf("error sending request: %w", err)
 	}
 	defer resp.Body.Close()
 
 	body, err := io.ReadAll(resp.Body)
 	if err != nil {
-		log.Panicf("error reading body: %v", err)
+		return fmt.Errorf("error reading body: %w", err)
 	}
 
 	fmt.Println(string(body))
+
+	return nil
 }
