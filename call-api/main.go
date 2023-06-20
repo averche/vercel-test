@@ -24,7 +24,22 @@ func main() {
 		log.Panicln("the expected VERCEL_TOKEN environment is not set!")
 	}
 
-	if err := request(ctx, token, http.MethodGet, "/projects", nil); err != nil {
+	// if err := request(ctx, token, http.MethodGet, "/v9/projects", nil); err != nil {
+	// 	log.Panicln(err)
+	// }
+
+	if err := request(
+		ctx,
+		token,
+		http.MethodPatch,
+		"/v9/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env/08w3OJ5CpocL9okK",
+		map[string]interface{}{
+			"key": "TEST_ENV",
+			// "target": []string{"production"},
+			"type":  "plain",
+			"value": "this is a new value!!!!",
+		},
+	); err != nil {
 		log.Panicln(err)
 	}
 }
@@ -41,7 +56,7 @@ func request(ctx context.Context, token, method, path string, body map[string]in
 	req, err := http.NewRequestWithContext(
 		ctx,
 		method,
-		fmt.Sprintf("https://api.vercel.com/v9%s", path),
+		fmt.Sprintf("https://api.vercel.com%s", path),
 		&reqBody,
 	)
 	if err != nil {
