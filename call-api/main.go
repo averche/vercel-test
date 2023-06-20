@@ -31,7 +31,7 @@ func main() {
 		http.MethodPost,
 		"/v9/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env?upsert=true",
 		map[string]interface{}{
-			"key":    "MY_NEW_ENV1",
+			"key":    "MY_NEW_ENV2",
 			"type":   "encrypted",
 			"target": []string{"preview", "development", "production"},
 			"value":  "some value!!!!",
