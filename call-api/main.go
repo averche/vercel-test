@@ -21,7 +21,7 @@ func main() {
 		log.Panicln("the expected VERCEL_TOKEN environment is not set!")
 	}
 
-	// create a secret (upsert seems to be ignored)
+	// create a secret
 	if err := request(
 		ctx,
 		token,
