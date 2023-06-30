@@ -43,6 +43,6 @@ $ go run main.go | jq
 ```
 
 ### Environment Variable Operations
-1. [Create](https://vercel.com/docs/rest-api/endpoints#create-one-or-more-environment-variables) (`upsert=true` is not working at the moment)
+1. [Create](https://vercel.com/docs/rest-api/endpoints#create-one-or-more-environment-variables)
 2. [Edit](https://vercel.com/docs/rest-api/endpoints#edit-an-environment-variable)
 3. [Remove](https://vercel.com/docs/rest-api/endpoints#remove-an-environment-variable)
