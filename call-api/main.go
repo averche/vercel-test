@@ -26,7 +26,7 @@ func main() {
 		ctx,
 		token,
 		http.MethodPost,
-		"/v9/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env?upsert=true",
+		"/v10/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env?upsert=true",
 		map[string]interface{}{
 			"key":    "MY_NEW_ENV2",
 			"type":   "encrypted",
@@ -42,7 +42,7 @@ func main() {
 		ctx,
 		token,
 		http.MethodPatch,
-		"/v9/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env/08w3OJ5CpocL9okK",
+		"/v10/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env/08w3OJ5CpocL9okK",
 		map[string]interface{}{
 			"key":   "TEST_ENV",
 			"type":  "encrypted",
