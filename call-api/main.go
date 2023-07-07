@@ -21,6 +21,17 @@ func main() {
 		log.Panicln("the expected VERCEL_TOKEN environment is not set!")
 	}
 
+	// fetch configuration
+	if err := request(
+		ctx,
+		token,
+		http.MethodGet,
+		"/v1/integrations/configuration/icfg_2ceLomJCktiEGdnGJ43zKZFc",
+		nil,
+	); err != nil {
+		log.Panicln(err)
+	}
+
 	// create a secret
 	if err := request(
 		ctx,
