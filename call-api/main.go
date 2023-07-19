@@ -32,6 +32,17 @@ func main() {
 		log.Panicln(err)
 	}
 
+	// fetch all envs
+	if err := request(
+		ctx,
+		token,
+		http.MethodGet,
+		"/v10/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env",
+		nil,
+	); err != nil {
+		log.Panicln(err)
+	}
+
 	// create a secret
 	if err := request(
 		ctx,
