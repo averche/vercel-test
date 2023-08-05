@@ -21,28 +21,51 @@ func main() {
 		log.Panicln("the expected VERCEL_TOKEN environment is not set!")
 	}
 
-	// fetch configuration
+	// fetch user
 	if err := request(
 		ctx,
 		token,
 		http.MethodGet,
-		"/v1/integrations/configuration/icfg_2ceLomJCktiEGdnGJ43zKZFc",
+		"/v2/user",
 		nil,
 	); err != nil {
 		log.Panicln(err)
 	}
+	//
+	// // fetch team
+	if err := request(
+		ctx,
+		token,
+		http.MethodGet,
+		"/v2/teams/team_kRChqe754SOcJudYPP6rroKH",
+		nil,
+	); err != nil {
+		log.Panicln(err)
+	}
+	//
+	// // fetch configuration
+	// if err := request(
+	// 	ctx,
+	// 	token,
+	// 	http.MethodGet,
+	// 	"/v1/integrations/configuration/icfg_sZhrM2YWkdRdz0LvLLpupITC?teamId=team_kRChqe754SOcJudYPP6rroKH",
+	// 	nil,
+	// ); err != nil {
+	// 	log.Panicln(err)
+	// }
 
 	// fetch all envs
-	if err := request(
-		ctx,
-		token,
-		http.MethodGet,
-		"/v10/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env",
-		nil,
-	); err != nil {
-		log.Panicln(err)
-	}
+	// if err := request(
+	// 	ctx,
+	// 	token,
+	// 	http.MethodGet,
+	// 	"/v9/projects",
+	// 	nil,
+	// ); err != nil {
+	// 	log.Panicln(err)
+	// }
 
+	return
 	// create a secret
 	if err := request(
 		ctx,
@@ -50,29 +73,16 @@ func main() {
 		http.MethodPost,
 		"/v10/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env?upsert=true",
 		map[string]interface{}{
-			"key":    "MY_NEW_ENV2",
+			"key":    "TEST_ENV",
 			"type":   "encrypted",
-			"target": []string{"preview", "development", "production"},
-			"value":  "some value!!!!",
+			"target": []string{"production"},
+			"value":  "production",
 		},
 	); err != nil {
 		log.Panicln(err)
 	}
 
 	// update a secret
-	if err := request(
-		ctx,
-		token,
-		http.MethodPatch,
-		"/v10/projects/prj_30mxVfZKN5oYRcrGk5rku3hUSlQY/env/08w3OJ5CpocL9okK",
-		map[string]interface{}{
-			"key":   "TEST_ENV",
-			"type":  "encrypted",
-			"value": "encrypted new value!!!!",
-		},
-	); err != nil {
-		log.Panicln(err)
-	}
 }
 
 func request(ctx context.Context, token, method, path string, body map[string]interface{}) error {
